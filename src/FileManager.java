@@ -11,9 +11,6 @@ public class FileManager {
     private GUI gui;
     String fileName;
     String fileDirectory;
-    // подразумевается, что есть класс, который реализует GUI, и класс FileManager
-    // используется для
-    // взаимодействия с файлами и их содержимым через объект типа JTextArea
 
     public FileManager(GUI gui) {
         this.gui = gui;
@@ -22,11 +19,10 @@ public class FileManager {
     public void newFile() {
         gui.textArea.setText("");
         gui.window.setTitle("New");
-
     }
 
-    public void renameFile() {
-
+    public void saveFile() {
+        FileDialog fd = new FileDialog(gui.window, "Save", FileDialog.LOAD);
     }
 
     public void openFile() {
@@ -37,36 +33,33 @@ public class FileManager {
             fileDirectory = fd.getDirectory();
             gui.window.setTitle(fileName);
             gui.textArea.setText("");
-        }
-        System.out.println(fileName);
-        try (BufferedReader in = new BufferedReader(new InputStreamReader(
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(
                 new FileInputStream(fileDirectory + fileName)))) {
-            String line;
-
-            while ((line = in.readLine()) != null) {
-                gui.textArea.append(line + '\n');
+                String line;
+                while ((line = in.readLine()) != null) {
+                    gui.textArea.append(line + '\n');
+                }
+            } catch (Exception e) {
+                System.out.println(e.getStackTrace());
             }
-        } catch (Exception e) {
-            System.out.println(e.getStackTrace());
         }
-        // if (result == JFileChooser.APPROVE_OPTION) {
-        // File selectedFile = fileChooser.getSelectedFile();
-        // String fileName = selectedFile.getName();
-        // String filePath = selectedFile.getPath();
-        // System.out.println(fileName + filePath);
-        // try (BufferedReader in = new BufferedReader(new InputStreamReader(
-        // new FileInputStream(fileName+filePath)))) {
-        // String line;
-        // while ((line = in.readLine()) != null) {
-        // textArea.append(line);
-        // }
-        // }catch (Exception e) {
-        // System.out.println(e.getStackTrace());
-        // }
-        // }
     }
 
-    public void saveFile() {
-
+    //переименовать
+    public void saveAsFile() {
+        FileDialog fd = new FileDialog(gui.window, "Save As", FileDialog.SAVE);
+        fd.setVisible(true);
+        if (fd.getFile() != null) {
+            File f = new File(fileName+fileDirectory);
+            file.delete();
+            fileName = fd.getFile();
+            fileDirectory = fd.getDirectory();
+            gui.window.setTitle(fileName);
+            try (FileWriter fw = new FileWriter(fileDirectory + fileName)) {
+                fw.write(gui.textArea.getText());
+            } catch (Exception e) {
+                System.out.println(e.getStackTrace());
+            }
+        }
     }
 }
