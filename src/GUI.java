@@ -14,7 +14,7 @@ public class GUI implements ActionListener {
     JScrollPane scrollPane;
     JMenuBar menuBar;
     JMenu menuFile, menuEdit, menuFormat, menuColor;
-    JMenuItem iNew, iOpen, iSave, iSaveAs, iExit;
+    JMenuItem iNew, iOpen, iSave, iSaveAs, iRename, iExit;
 
     FileManager fm = new FileManager(this);
 
@@ -75,6 +75,11 @@ public class GUI implements ActionListener {
         iSaveAs.setActionCommand("SaveAs");
         menuFile.add(iSaveAs);
 
+        iRename = new JMenuItem("Rename");
+        iRename.addActionListener(this);
+        iRename.setActionCommand("Rename");
+        menuFile.add(iRename);
+
         iExit = new JMenuItem("Exit");
         iExit.addActionListener(this);
         iExit.setActionCommand("Exit");
@@ -92,13 +97,16 @@ public class GUI implements ActionListener {
                 fm.openFile();
                 break;
             case "Save":
-                fm.newFile();
+                fm.saveFile();
                 break;
             case "SaveAs":
-                fm.newFile();
+                fm.saveAsFile();
+                break;
+            case "Rename":
+                fm.renameFile();
                 break;
             case "Exit":
-                fm.newFile();
+                System.exit(0);
                 break;
             default:
                 break;
