@@ -75,17 +75,15 @@ public class FileManager {
             fileDirectory = fd.getDirectory();
             gui.window.setTitle(fileName);
             gui.textArea.setText("");
-        }
-        System.out.println(fileName);
-        try (BufferedReader in = new BufferedReader(new InputStreamReader(
-                new FileInputStream(fileDirectory + fileName)))) {
-            String line;
-
-            while ((line = in.readLine()) != null) {
-                gui.textArea.append(line + '\n');
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(
+                    new FileInputStream(fileDirectory + fileName)))) {
+                String line;
+                while ((line = in.readLine()) != null) {
+                    gui.textArea.append(line + '\n');
+                }
+            } catch (Exception e) {
+                System.out.println(e.getStackTrace());
             }
-        } catch (Exception e) {
-            System.out.println(e.getStackTrace());
         }
     }
 
