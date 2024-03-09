@@ -9,12 +9,12 @@ public class FileManager {
     private GUI gui;
     String fileName;
     String fileDirectory;
-    // подразумевается, что есть класс, который реализует GUI, и класс FileManager
-    // используется для
-    // взаимодействия с файлами и их содержимым через объект типа JTextArea
+    // подразумевается, что есть класс, который реализует GUI
 
     public FileManager(GUI gui) {
         this.gui = gui;
+        fileName = null;
+        fileDirectory = null;
     }
 
     public void newFile() {
