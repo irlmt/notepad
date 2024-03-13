@@ -1,3 +1,4 @@
+package FileManager;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,7 +20,6 @@ public class FileManager {
 
     public void newFile() {
         gui.textArea.setText("");
-        gui.window.setTitle("New");
         fileName = null;
         fileDirectory = null;
     }
@@ -31,7 +31,6 @@ public class FileManager {
         if (fd.getFile() != null) {
             fileName = fd.getFile();
             fileDirectory = fd.getDirectory();
-            gui.window.setTitle(fileName);
             try (FileWriter fw = new FileWriter(fileDirectory + fileName)) {
                 fw.write(gui.textArea.getText());
             } catch (Exception e) {
@@ -40,7 +39,6 @@ public class FileManager {
         }
     }
 
-    // подразумевается, что метод вызывается после openFile или newFile
     public void renameFile() {
         FileDialog fd = new FileDialog(gui.window, "Rename", FileDialog.SAVE);
         fd.setVisible(true);
@@ -73,7 +71,6 @@ public class FileManager {
         if (fd.getFile() != null) {
             fileName = fd.getFile();
             fileDirectory = fd.getDirectory();
-            gui.window.setTitle(fileName);
             gui.textArea.setText("");
             try (BufferedReader in = new BufferedReader(new InputStreamReader(
                     new FileInputStream(fileDirectory + fileName)))) {
